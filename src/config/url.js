@@ -1,0 +1,1 @@
+export const MOVIE = 'http://www.omdbapi.com/?apikey=5edad433&s=:search';
