@@ -24,30 +24,34 @@ class dashBoard extends React.Component {
         console.log(MOVIE)
         console.log(this.state.searchText)
 
-        this.setState({loading: true})
+        // this.setState({loading: true})
+        this.props.mySetLoader(true)
         let url = `${MOVIE}${this.state.searchText}`;
         url = MOVIE + this.state.searchText
 
         url = MOVIE.replace(':search', this.state.searchText)
 
-        console.log(url)
+        //console.log(url)
 
         get(url)
         .then( response => {
             console.log( response.data.Search ) 
-            this.setState({loading: false, movies: response.data.Search})
+            this.props.mySetLoader(false);
+            this.props.mySaveMovies(response.data.Search);
+            // this.setState({loading: false, movies: response.data.Search})
         })
 
         .catch(err => {
             console.log('err', err);
             alert('sorry something went wrong')
-            this.setState({loading: false})
+            // this.setState({loading: false})
+            this.props.mySetLoader(false)
         });
 
     }
    
     render() {
-        if(this.state.loading) return <div>loading....</div>
+        if(this.props.loading) return <div>loading....</div>
 
         return(
             <section className="header">
@@ -69,7 +73,7 @@ class dashBoard extends React.Component {
                     <ul>
                     
                        {
-                           this.state.movies && this.state.movies.map(movie => <li key={movie.imdbID}>{movie.Title}</li>)
+                           this.props.movies && this.props.movies.map(movie => <li key={movie.imdbID}>{movie.Title}</li>)
                        }
                     </ul>
                 </div>
